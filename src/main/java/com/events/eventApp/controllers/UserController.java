@@ -1,5 +1,6 @@
 package com.events.eventApp.controllers;
 
+import com.events.eventApp.config.Encoder;
 import com.events.eventApp.persistence.entities.User;
 import com.events.eventApp.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     UserRepository userRepository;
@@ -25,10 +26,16 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/createUser")
+    @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+        String encryptedPassword = Encoder.passwordencoder().encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+        user.setEnabled(true);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
         User userCreated = userRepository.save(user);
-        return ResponseEntity.ok().body("User Created");
+        return ResponseEntity.ok().body("User Created" + userCreated);
     }
 
 }
