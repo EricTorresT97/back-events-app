@@ -26,7 +26,6 @@ public class User implements UserDetails {
     private String lastName;
     private Date bornDate;
     private String interests;
-    private List<Item> items;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;

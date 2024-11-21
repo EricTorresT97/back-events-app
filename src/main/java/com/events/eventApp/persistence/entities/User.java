@@ -19,13 +19,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String email;
+//    private String email;
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
-    private Date bornDate;
-    private String interests;
+//    private String firstName;
+//    private String lastName;
+//    private Date bornDate;
+//    private String interests;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;

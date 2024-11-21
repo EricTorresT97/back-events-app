@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/auth")
 public class BasicAuthController {
+
     @PostMapping(path = "/login")
     public ResponseEntity<String> basicauth(UsernamePasswordAuthenticationToken upa) {
         // El objeto upa tiene información sobre el usuario y la contraseña

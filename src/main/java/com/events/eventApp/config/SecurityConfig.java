@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,13 +50,12 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())// Deshabilitamos la protección contra ataques Cross-site request forgery
                 .cors(withDefaults())
                 .authorizeHttpRequests((requests) -> {
                     try {
-                        requests
-                                .requestMatchers("/users/create", "/login","/event/events").permitAll()
-                                .anyRequest().authenticated();
+                        // Definimos que urls estarán desprotegidas y no necesitarán recibir las credenciales para poder ser accedidas
+                        requests.requestMatchers("/event/events", "/event/events/**", "event/events","/login").permitAll().anyRequest().authenticated();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -65,8 +63,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-
+    // Configuración del CORS (Cross-origin resource sharing)
     @Bean
     WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
