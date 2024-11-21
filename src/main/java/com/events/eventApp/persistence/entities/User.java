@@ -1,7 +1,9 @@
 package com.events.eventApp.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,7 +11,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {

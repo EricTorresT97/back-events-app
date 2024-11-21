@@ -28,7 +28,9 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+
         String encryptedPassword = Encoder.passwordencoder().encode(user.getPassword());
+        user.setUsername(user.getEmail());
         user.setPassword(encryptedPassword);
         user.setEnabled(true);
         user.setAccountNonExpired(true);
