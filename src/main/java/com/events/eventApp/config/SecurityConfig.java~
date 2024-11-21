@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     try {
                         requests
-                                .requestMatchers("/users/create", "/login","/event/events").permitAll()
+                                .requestMatchers("/users/create", "/login").permitAll()
                                 .anyRequest().authenticated();
                     } catch (Exception e) {
                         e.printStackTrace();

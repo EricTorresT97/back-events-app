@@ -17,5 +17,8 @@ public class Event implements Serializable {
     private String eventLocation;
     private String name;
     private Date date;
+    @OneToMany
+    private List<Item> items;
+    @ManyToMany
     private List<User> participants;
 }

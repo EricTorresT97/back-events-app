@@ -5,7 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UserEventAssociationId implements Serializable {
+public class UserItemEventAssociationId implements Serializable {
     private int userId;
+    private int itemId;
     private int eventId;
 }

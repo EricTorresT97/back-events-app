@@ -3,6 +3,7 @@ package com.events.eventApp.controllers;
 
 import com.events.eventApp.persistence.entities.Event;
 import com.events.eventApp.persistence.entities.User;
+import com.events.eventApp.persistence.entities.UserItemEventAssociation;
 import com.events.eventApp.persistence.repositories.EventRepository;
 import com.events.eventApp.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/event")
+@RequestMapping("/events")
 public class EventController {
     @Autowired
     EventRepository eventRepository;
@@ -23,8 +24,8 @@ public class EventController {
     UserRepository userRepository;
 
 
-
-    @GetMapping("/events")
+// Si esta ruta esta desprotegida, ¿pq no logramos ?
+    @GetMapping("/event")
     public List<Event> getEvents() {
         List<Event> events = eventRepository.findAll();
         return events;
@@ -41,7 +42,7 @@ public class EventController {
 
 
 
-    @PostMapping("/new-event")
+    @PostMapping("/new")
     public ResponseEntity<String> createEvent(@RequestBody Event event, Principal principal) {
         Event newEvent = new Event();
         String username = principal.getName();
@@ -52,5 +53,22 @@ public class EventController {
         newEvent.setEventLocation(event.getEventLocation());
         eventRepository.save(newEvent);
         return ResponseEntity.ok().body("Evento creado con exito");
+    }
+
+    @PostMapping("addParticipant/{eventId}/{userId}")
+    public ResponseEntity<String> addParticipant(@PathVariable("eventId") Integer eventId, @PathVariable("userId") Integer userId) {
+        Event event = eventRepository.findById(eventId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+
+
+        UserItemEventAssociation uia = new UserItemEventAssociation();
+        uia.setUser(user);
+
+        userRepository.save(user);
+
+
+        event.getParticipants().add(user);
+        eventRepository.save(event);
+        return ResponseEntity.ok().body("Participante añadido con exito");
     }
 }
