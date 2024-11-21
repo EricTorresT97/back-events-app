@@ -22,59 +22,60 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${app.local-domain-front}")
-    private String localDomainFront;
+	@Value("${app.local-domain-front}")
+	private String localDomainFront;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthenticationSuccessHandler succesHandler() {
-        return (request, response, authentication) -> response.sendRedirect("/");
+	public AuthenticationSuccessHandler succesHandler() {
+		return (request, response, authentication) -> response.sendRedirect("/");
 
-    }
+	}
 
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
+	@Autowired
+	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+	}
 
-    @Bean
-    AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
-            throws Exception {
-        AuthenticationManagerBuilder authenticationManager = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManager.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-        return authenticationManager.build();
-    }
+	@Bean
+	AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder)
+			throws Exception {
+		AuthenticationManagerBuilder authenticationManager = http.getSharedObject(AuthenticationManagerBuilder.class);
+		authenticationManager.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+		return authenticationManager.build();
+	}
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .cors(withDefaults())
-                .authorizeHttpRequests((requests) -> {
-                    try {
-                        requests
-                                .requestMatchers("/users/create").permitAll()
-                                .anyRequest().authenticated();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }).httpBasic(withDefaults());
-        return http.build();
-    }
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+		.cors(withDefaults())
+		.authorizeHttpRequests((requests) -> {
+			try {
+				requests.requestMatchers("/users/create").permitAll().anyRequest().authenticated();                                    ;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}).httpBasic(withDefaults());
+		return http.build();
+	}
 
+	// Configuración del CORS (Cross-origin resource sharing)
+	@Bean
+	WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(localDomainFront) // Update to match your frontend domain
+                        .allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS")
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Enable credentials if needed
 
-
-    @Bean
-    WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins(localDomainFront);
-                registry.addMapping("/**").allowedMethods("POST", "PUT", "GET", "DELETE", "OPTIONS");
-            }
-        };
-    }
+			}
+		};
+	}
 }

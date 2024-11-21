@@ -55,4 +55,15 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+    @Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
 }

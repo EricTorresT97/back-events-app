@@ -5,6 +5,7 @@ import com.events.eventApp.persistence.entities.User;
 import com.events.eventApp.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
     public static void findUserByUsername(String username) {
     }
@@ -27,9 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
 
-        String encryptedPassword = Encoder.passwordencoder().encode(user.getPassword());
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setUsername(user.getEmail());
         user.setPassword(encryptedPassword);
         user.setEnabled(true);
@@ -37,7 +41,8 @@ public class UserController {
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
         User userCreated = userRepository.save(user);
-        return ResponseEntity.ok().body("User Created" + userCreated);
+
+        return userCreated;
     }
 
 }
