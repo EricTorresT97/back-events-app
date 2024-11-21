@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     UserRepository userRepository;
@@ -25,7 +25,7 @@ public class UserController {
         return user;
     }
 
-    @PostMapping("/createUser")
+    @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         User userCreated = userRepository.save(user);
         return ResponseEntity.ok().body("User Created");

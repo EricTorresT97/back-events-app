@@ -56,8 +56,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     try {
                         requests
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/endpointdesprotegido").permitAll()
+                                .requestMatchers("/users/create").permitAll()
                                 .anyRequest().authenticated();
                     } catch (Exception e) {
                         e.printStackTrace();
