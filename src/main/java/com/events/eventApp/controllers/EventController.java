@@ -2,7 +2,9 @@ package com.events.eventApp.controllers;
 
 
 import com.events.eventApp.persistence.entities.Event;
+import com.events.eventApp.persistence.entities.User;
 import com.events.eventApp.persistence.repositories.EventRepository;
+import com.events.eventApp.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,10 @@ public class EventController {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+
 
     @GetMapping("/events")
     public List<Event> getEvents() {
@@ -24,21 +30,26 @@ public class EventController {
         return events;
     }
 
-    @GetMapping("/{id}")
 
+
+
+    @GetMapping("/{id}")
     public List<Event> getEventById(@PathVariable("id") Integer id) {
         List<Event> events = eventRepository.findByEventId(id);
         return events;
     }
 
 
+
     @PostMapping("/new-event")
     public ResponseEntity<String> createEvent(@RequestBody Event event, Principal principal) {
         Event newEvent = new Event();
         String username = principal.getName();
-        newEvent.setEventOwner(username);
+        User u = userRepository.findByUsername(username);
+        newEvent.setEventOwner(u);
         newEvent.setDate(event.getDate());
         newEvent.setParticipants(event.getParticipants());
+        newEvent.setEventLocation(event.getEventLocation());
         eventRepository.save(newEvent);
         return ResponseEntity.ok().body("Evento creado con exito");
     }

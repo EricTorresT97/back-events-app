@@ -13,7 +13,8 @@ import java.util.List;
 public class Event implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String eventOwner;
+    private User eventOwner;
+    private String eventLocation;
     private String name;
     private Date date;
     private List<User> participants;
