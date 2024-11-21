@@ -34,9 +34,9 @@ public class EventController {
 
 
     @GetMapping("/{id}")
-    public List<Event> getEventById(@PathVariable("id") Integer id) {
-        List<Event> events = eventRepository.findByEventId(id);
-        return events;
+    public Event getEventById(@PathVariable("id") Integer id) {
+        Event event = eventRepository.findById(id).orElse(null);
+        return event;
     }
 
 
