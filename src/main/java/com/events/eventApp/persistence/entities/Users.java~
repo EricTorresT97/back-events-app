@@ -2,7 +2,6 @@ package com.events.eventApp.persistence.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,17 +14,12 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Para generar números autoincrementados
     private int id;
-    private String username;
+    private String userName;
     private String password;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private Date bornDate;
-    private String interests;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
@@ -58,7 +52,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     @Override

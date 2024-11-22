@@ -1,13 +1,12 @@
 package com.events.eventApp.persistence.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Entity
- @Data
+@Data
 public class UserItemEventAssociation implements Serializable {
     @Id
     @EmbeddedId

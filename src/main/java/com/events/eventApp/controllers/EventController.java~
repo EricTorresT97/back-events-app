@@ -26,7 +26,7 @@ public class EventController {
         return events;
     }
 
-
+    
     @GetMapping("/{id}")
     public Event getEventById(@PathVariable("id") Integer id) {
         Event event = eventRepository.findById(id).orElse(null);

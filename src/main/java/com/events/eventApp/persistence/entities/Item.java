@@ -19,5 +19,5 @@ public class Item implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private Boolean added;
+//    private Boolean added;
 }
