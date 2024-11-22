@@ -1,5 +1,6 @@
 package com.events.eventApp.controllers;
 
+
 import com.events.eventApp.config.Encoder;
 import com.events.eventApp.persistence.entities.User;
 import com.events.eventApp.persistence.repositories.UserRepository;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/profile")
+    @GetMapping("/{id}")
     public User getProfileById(@PathVariable("id") Integer id) {
         User user = userRepository.findById(id).orElse(null);
         return user;
@@ -30,7 +31,7 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody User user) {
 
         String encryptedPassword = Encoder.passwordencoder().encode(user.getPassword());
-//        user.setUsername(user.getEmail());
+//      user.setUsername(user.getEmail());
         user.setPassword(encryptedPassword);
         user.setEnabled(true);
         user.setAccountNonExpired(true);

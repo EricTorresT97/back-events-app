@@ -1,5 +1,6 @@
 package com.events.eventApp.services;
 
+
 import com.events.eventApp.persistence.entities.User;
 import com.events.eventApp.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

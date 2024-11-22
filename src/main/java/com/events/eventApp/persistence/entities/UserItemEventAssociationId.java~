@@ -1,4 +1,4 @@
 package com.events.eventApp.persistence.entities;
 
-public class UserItemEventAssociation {
+public class UserItemEventAssociationId {
 }

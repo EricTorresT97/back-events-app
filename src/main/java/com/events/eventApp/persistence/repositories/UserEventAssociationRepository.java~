@@ -1,0 +1,4 @@
+package com.events.eventApp.persistence.repositories;
+
+public interface UserEventAssociationRepository {
+}
